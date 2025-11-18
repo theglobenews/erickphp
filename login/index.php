@@ -21,7 +21,7 @@ if(isset($_POST['email']) || isset($_POST['senha'])){
         if($quantidade == 1){
             $usuario = $lista_usuarios -> fetch_assoc();
             
-            if(isset($_SESSION)){
+            if(!isset($_SESSION)){
                 session_start();
             }
 

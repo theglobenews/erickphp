@@ -1,10 +1,10 @@
 <?php 
 
-if(isset($_SESSION)){
+if(!isset($_SESSION)){
     session_start();
 }
 
-if(isset($SESSION['id'])){
+if(!isset($SESSION['id'])){
     die("Você não pode acessar esta página porque não está logado. <p><a href=\"index.php\">entrar</a></p>");
 }
 
