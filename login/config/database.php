@@ -1,18 +1,12 @@
 <?php
-class Database {
-    private $host = "localhost";
-    private $usuario = "root";
-    private $senha = "";
-    private $banco = "login";
-    public $conn;
 
-    public function conectar() {
-        $this->conn = new mysqli($this->host, $this->usuario, $this->senha, $this->banco);
+$host = 'localhost';
+$usuario = 'root';
+$senha = '';
+$database = 'login';
 
-        if ($this->conn->connect_error) {
-            die("Erro de conexão: " . $this->conn->connect_error);
-        }
+$mysqli = new mysqli($host, $usuario, $senha, $database);
 
-        return $this->conn;
-    }
+if ($mysqli->connect_error) {
+    die("Erro ao conectar ao banco de dados");
 }

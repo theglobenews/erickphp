@@ -1,25 +1,22 @@
 <?php
-require_once __DIR__ . '/../config/database.php';
 
 class Usuario {
-    private $conn;
 
-    public function __construct() {
-        $db = new Database();
-        $this->conn = $db->conectar();
+    private $db;
+
+    public function __construct($mysqli) {
+        $this->db = $mysqli;
     }
 
-    public function buscarPorEmailSenha($email, $senha) {
-        $email = $this->conn->real_escape_string($email);
-        $senha = $this->conn->real_escape_string($senha);
+    public function autenticar($email, $senha) {
+        $email = $this->db->real_escape_string($email);
+        $senha = $this->db->real_escape_string($senha);
 
-        $sql = "SELECT * FROM usuarios WHERE email = '$email' AND senha = '$senha'";
-        $resultado = $this->conn->query($sql);
+        $sql = "SELECT * FROM usuarios 
+                WHERE email = '$email' AND senha = '$senha'";
 
-        if ($resultado->num_rows === 1) {
-            return $resultado->fetch_assoc();
-        }
-
-        return null;
+        return $this->db->query($sql);
     }
 }
+
+

@@ -2,10 +2,6 @@
 if (!isset($_SESSION)) {
     session_start();
 }
-
-if (!isset($_SESSION['id'])) {
-    die("Você não está logado. <a href='index.php'>Entrar</a>");
-}
 ?>
 
 <!DOCTYPE html>
@@ -15,7 +11,31 @@ if (!isset($_SESSION['id'])) {
     <title>Painel</title>
 </head>
 <body>
-    <h1>Bem-vindo, <?php echo $_SESSION['nome']; ?></h1>
+
+<?php if (!isset($_SESSION['id'])): ?>
+
+    <h1>Acesso restrito</h1>
+
+    <p>
+        Você não está logado.<br>
+        Apenas usuários cadastrados podem acessar.
+    </p>
+
+    <a href="../index.php?route=login">
+        <button>Ir para o Login</button>
+    </a>
+
+<?php else: ?>
+
+    <h1>Painel do Sistema</h1>
+
+    <p>Bem-vindo, <?php echo $_SESSION['nome']; ?></p>
+
+    <p>
+        Você já está autenticado no sistema.
+    </p>
+
+<?php endif; ?>
 
 </body>
 </html>

@@ -5,9 +5,15 @@
     <title>Erro</title>
 </head>
 <body>
-    <h2><?php echo $erro; ?></h2>
 
-    <p><a href="index.php">Voltar</a></p>
+<h2>Erro ao fazer login</h2>
+
+<p>Email ou senha incorretos.</p>
+
+<a href="../index.php?route=login">
+    <button>Voltar para o login</button>
+</a>
+
 </body>
 </html>
 

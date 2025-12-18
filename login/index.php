@@ -1,24 +1,37 @@
 <?php
-require_once __DIR__ . '/controllers/AuthController.php';
+require_once __DIR__ . '/config/database.php';
 
-if (!isset($_SESSION)) {
-    session_start();
-}
+$route = $_GET['route'] ?? 'login';
 
-$controller = new AuthController();
+switch ($route) {
 
-$action = $_GET['action'] ?? 'index';
-
-switch ($action) {
-    case 'logar':
-        $controller->logar();
+    case 'login':
+        require_once __DIR__ . '/controllers/AuthController.php';
+        (new AuthController())->login($mysqli);
         break;
 
-    case 'painel':
-        $controller->painel();
+    case 'tarefas':
+        require_once __DIR__ . '/controllers/TarefaController.php';
+        (new TarefaController($mysqli))->index();
         break;
 
-    default:
-        $controller->index();
+    case 'criar':
+        require_once __DIR__ . '/controllers/TarefaController.php';
+        (new TarefaController($mysqli))->criar();
+        break;
+
+    case 'excluir':
+        require_once __DIR__ . '/controllers/TarefaController.php';
+        (new TarefaController($mysqli))->excluir();
+        break;
+
+    case 'editar':
+        require_once __DIR__ . '/controllers/TarefaController.php';
+        (new TarefaController($mysqli))->editar();
+        break;
+
+    case 'atualizar':
+        require_once __DIR__ . '/controllers/TarefaController.php';
+        (new TarefaController($mysqli))->atualizar();
         break;
 }

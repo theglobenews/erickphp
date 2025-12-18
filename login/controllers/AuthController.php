@@ -1,45 +1,37 @@
 <?php
+
 require_once __DIR__ . '/../models/Usuario.php';
 
 class AuthController {
-    private $usuarioModel;
 
-    public function __construct() {
-        $this->usuarioModel = new Usuario();
-    }
+    public function login($mysqli) {
 
-    public function index() {
-        include __DIR__ . '/../views/login.php';
-    }
-
-    public function logar() {
-        if (!empty($_POST['email']) && !empty($_POST['senha'])) {
-            $email = $_POST['email'];
-            $senha = $_POST['senha'];
-
-            $usuario = $this->usuarioModel->buscarPorEmailSenha($email, $senha);
-
-            if ($usuario) {
-                if (!isset($_SESSION)) {
-                    session_start();
-                }
-
-                $_SESSION['id'] = $usuario['id'];
-                $_SESSION['nome'] = $usuario['nome'];
-
-                header("Location: index.php?action=painel");
-                exit;
-            } else {
-                $erro = "Email ou senha incorretos.";
-                include __DIR__ . '/../views/erro.php';
-            }
-        } else {
-            $erro = "Preencha todos os campos.";
-            include __DIR__ . '/../views/erro.php';
+        if (!isset($_POST['email']) || !isset($_POST['senha'])) {
+            require __DIR__ . '/../views/login.php';
+            return;
         }
-    }
 
-    public function painel() {
-        include __DIR__ . '/../views/painel.php';
+        $usuario = new Usuario($mysqli);
+        $resultado = $usuario->autenticar($_POST['email'], $_POST['senha']);
+
+        if ($resultado->num_rows === 1) {
+
+            $dados = $resultado->fetch_assoc();
+
+            if (!isset($_SESSION)) {
+                session_start();
+            }
+
+            $_SESSION['id'] = $dados['id'];
+            $_SESSION['nome'] = $dados['nome'];
+
+            header("Location: index.php?route=tarefas");
+            exit;
+
+        }
+
+        $erro = "Email ou senha incorretos.";
+        require __DIR__ . '/../views/erro.php';
     }
 }
+
