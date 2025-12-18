@@ -40,5 +40,9 @@
     <p>Não há tarefas ainda!</p>
 <?php endif; ?>
 
+<a href="../index.php?route=login">
+    <button>Voltar para o login</button>
+</a>
+
 </body>
 </html>
